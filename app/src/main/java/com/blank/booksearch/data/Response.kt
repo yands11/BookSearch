@@ -24,7 +24,7 @@ fun BookResponse.toEntity(): Book =
         title = title,
         subTitle = subTitle,
         price = price,
-        image = image,
+        imageUrl = image,
         url = url
     )
 
@@ -53,7 +53,7 @@ fun BookDetailResponse.toEntity(): Book =
         title = title,
         subTitle = subTitle,
         price = price,
-        image = image,
+        imageUrl = image,
         url = url,
         isbn10 = isbn10,
         publisher = publisher,
