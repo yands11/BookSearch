@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.blank.booksearch.databinding.FragmentNewBookBinding
+import com.blank.booksearch.ui.common.BookAdapter
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -28,7 +29,7 @@ class NewBookFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val adapter = NewBookAdapter()
+        val adapter = BookAdapter()
         binding.rvNew.adapter = adapter
         vm.bookUiModel.observe(viewLifecycleOwner) {
             adapter.submitList(it)

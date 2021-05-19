@@ -6,6 +6,7 @@ import androidx.fragment.app.commit
 import androidx.fragment.app.replace
 import com.blank.booksearch.R
 import com.blank.booksearch.databinding.ActivityMainBinding
+import com.blank.booksearch.ui.bookmark.BookmarkFragment
 import com.blank.booksearch.ui.detail.BookDetailFragment
 import com.blank.booksearch.ui.search.SearchBookFragment
 import dagger.hilt.android.AndroidEntryPoint
@@ -18,8 +19,8 @@ class MainActivity : AppCompatActivity() {
         val binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
         supportFragmentManager.commit {
-            replace(R.id.container, BookDetailFragment.newInstance("9781492046677"))
-//            replace<SearchBookFragment>(R.id.container)
+//            replace(R.id.container, BookDetailFragment.newInstance("9781492046677"))
+            replace<BookmarkFragment>(R.id.container)
         }
     }
 }
