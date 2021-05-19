@@ -6,6 +6,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.blank.booksearch.domain.GetNewBooksUseCase
 import com.blank.booksearch.domain.Result
+import com.blank.booksearch.ui.common.BookUiModel
+import com.blank.booksearch.ui.common.toUiModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import timber.log.Timber

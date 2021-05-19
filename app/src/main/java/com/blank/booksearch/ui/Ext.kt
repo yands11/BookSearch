@@ -1,6 +1,9 @@
 package com.blank.booksearch.ui
 
+import android.view.View
+import android.view.inputmethod.InputMethodManager
 import android.widget.ImageView
+import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.BindingAdapter
 import com.blank.booksearch.R
 import com.bumptech.glide.Glide
@@ -14,3 +17,8 @@ fun ImageView.loadImage(url: String?) = url?.let {
         .transition(DrawableTransitionOptions.withCrossFade())
         .into(this)
 }
+
+fun View.closeKeypad() =
+    context.getSystemService(AppCompatActivity.INPUT_METHOD_SERVICE)?.let { inputMethodService ->
+        inputMethodService as? InputMethodManager
+    }?.hideSoftInputFromWindow(this.windowToken, 0)

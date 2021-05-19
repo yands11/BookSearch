@@ -1,4 +1,4 @@
-package com.blank.booksearch.ui.newbook
+package com.blank.booksearch.ui.common
 
 import androidx.recyclerview.widget.RecyclerView
 import com.blank.booksearch.databinding.HolderBookBinding

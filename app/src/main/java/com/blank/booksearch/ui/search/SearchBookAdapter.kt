@@ -1,14 +1,14 @@
-package com.blank.booksearch.ui.newbook
+package com.blank.booksearch.ui.search
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
-import androidx.recyclerview.widget.ListAdapter
 import com.blank.booksearch.databinding.HolderBookBinding
 import com.blank.booksearch.ui.common.BookUiModel
 import com.blank.booksearch.ui.common.BookViewHolder
 
-class NewBookAdapter : ListAdapter<BookUiModel, BookViewHolder>(diffCallback) {
+class SearchBookAdapter : PagingDataAdapter<BookUiModel, BookViewHolder>(diffCallback) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BookViewHolder {
         return BookViewHolder(
@@ -21,7 +21,7 @@ class NewBookAdapter : ListAdapter<BookUiModel, BookViewHolder>(diffCallback) {
     }
 
     override fun onBindViewHolder(holder: BookViewHolder, position: Int) {
-        holder.bindItem(getItem(position))
+        getItem(position)?.let(holder::bindItem)
     }
 
     companion object {

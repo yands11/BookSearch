@@ -1,4 +1,4 @@
-package com.blank.booksearch.ui.newbook
+package com.blank.booksearch.ui.common
 
 import com.blank.booksearch.entity.Book
 
