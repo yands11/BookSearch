@@ -18,7 +18,7 @@ class MainActivity : AppCompatActivity() {
         val binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
         supportFragmentManager.commit {
-            replace(R.id.container, BookDetailFragment.newInstance("9783030053178"))
+            replace(R.id.container, BookDetailFragment.newInstance("9781492046677"))
 //            replace<SearchBookFragment>(R.id.container)
         }
     }

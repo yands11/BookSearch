@@ -29,6 +29,21 @@
                 app:layout_constraintTop_toTopOf="parent"
                 app:url="@{vm.coverImageUrl}" />
 
+            <com.blank.booksearch.ui.common.BookmarkButton
+                android:id="@+id/btn_bookmark"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:gravity="center"
+                android:text="Bookmark"
+                android:visibility="invisible"
+                app:click="@{vm::clickBookmark}"
+                app:isSelected="@{vm.isBookmarked}"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/iv_cover"
+                tools:visibility="visible" />
+
             <TextView
                 android:id="@+id/tv_title"
                 android:layout_width="wrap_content"
@@ -37,7 +52,7 @@
                 android:text="@{vm.title}"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/iv_cover"
+                app:layout_constraintTop_toBottomOf="@+id/btn_bookmark"
                 tools:text="Title" />
 
             <TextView
@@ -136,8 +151,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
-                app:layout_constraintEnd_toEndOf="parent"
                 android:text="@{vm.price}"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/tv_rate"
                 tools:text="price" />
 

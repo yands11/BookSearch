@@ -1,10 +1,11 @@
 package com.blank.booksearch.ui.detail
 
 import androidx.lifecycle.*
-import com.blank.booksearch.domain.GetBookDetailUseCase
-import com.blank.booksearch.domain.Result
+import com.blank.booksearch.domain.*
+import com.blank.booksearch.entity.Book
 import com.blank.booksearch.ui.common.BookDetailUiModel
 import com.blank.booksearch.ui.common.toDetailUiModel
+import com.blank.booksearch.ui.common.toUiModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -14,10 +15,16 @@ import javax.inject.Inject
 
 @HiltViewModel
 class BookDetailViewModel @Inject constructor(
-    private val getBookDetailUseCase: GetBookDetailUseCase
+    private val getBookDetailUseCase: GetBookDetailUseCase,
+    private val findBookmarkByIsbnUseCase: FindBookmarkByIsbnUseCase,
+    private val addBookmarkUseCase: AddBookmarkUseCase,
+    private val removeBookmarkUseCase: RemoveBookmarkUseCase
 ) : ViewModel() {
 
-    private val _bookDetailUiModel = MutableLiveData<BookDetailUiModel>()
+    private val _book = MutableLiveData<Book>()
+    private val _bookDetailUiModel = _book.map { it.toDetailUiModel() }
+    private val _isBookmarked = MutableLiveData<Boolean>()
+    val isBookmarked: LiveData<Boolean> get() = _isBookmarked
     val coverImageUrl: LiveData<String> = _bookDetailUiModel.map { it.coverImageUrl }
     val title: LiveData<String> = _bookDetailUiModel.map { it.title }
     val subTitle: LiveData<String> = _bookDetailUiModel.map { it.subTitle }
@@ -37,9 +44,47 @@ class BookDetailViewModel @Inject constructor(
             val res = withContext(Dispatchers.IO) { getBookDetailUseCase(isbn) }
             when (res) {
                 is Result.Success -> {
-                    _bookDetailUiModel.value = res.data.toDetailUiModel()
+                    _book.value = res.data
+                    checkBookmark(res.data.isbn13)
                 }
                 is Result.Error -> Timber.e(res.exception)
+            }
+        }
+    }
+
+    private fun checkBookmark(isbn13: String) {
+        val res = findBookmarkByIsbnUseCase(isbn13)
+        when (res) {
+            is Result.Success -> _isBookmarked.value = true
+            is Result.Error -> {
+                _isBookmarked.value = false
+                Timber.e(res.exception)
+            }
+        }
+    }
+
+    private fun addBookmark(book: Book) {
+        val res = addBookmarkUseCase(book)
+        when (res) {
+            is Result.Success -> _isBookmarked.value = true
+            is Result.Error -> Timber.e(res.exception)
+        }
+    }
+
+    private fun removeBookmark(isbn13: String) {
+        val res = removeBookmarkUseCase(isbn13)
+        when (res) {
+            is Result.Success -> _isBookmarked.value = false
+            is Result.Error -> Timber.e(res.exception)
+        }
+    }
+
+    fun clickBookmark() {
+        _isBookmarked.value?.let { isBookmarked ->
+            if (isBookmarked) {
+                _book.value?.let { removeBookmark(it.isbn13) }
+            } else {
+                _book.value?.let { addBookmark(it) }
             }
         }
     }
