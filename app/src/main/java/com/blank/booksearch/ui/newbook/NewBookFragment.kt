@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import com.blank.booksearch.databinding.FragmentNewBookBinding
 import com.blank.booksearch.ui.common.BookAdapter
 import dagger.hilt.android.AndroidEntryPoint
@@ -29,7 +30,11 @@ class NewBookFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val adapter = BookAdapter()
+        val adapter = BookAdapter { isbn ->
+            findNavController().navigate(
+                NewBookFragmentDirections.actionNewFragmentToBookDetailFragment(isbn)
+            )
+        }
         binding.rvNew.adapter = adapter
         vm.bookUiModel.observe(viewLifecycleOwner) {
             adapter.submitList(it)

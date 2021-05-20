@@ -22,6 +22,10 @@ class BookmarkViewModel @Inject constructor(
     val uiModels: LiveData<List<BookUiModel>> get() = _uiModels
 
     init {
+        refreshUiModel()
+    }
+
+    fun refreshUiModel() {
         viewModelScope.launch {
             val res = getBookmarksUseCase()
             when (res) {

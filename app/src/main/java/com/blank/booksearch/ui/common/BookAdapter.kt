@@ -6,16 +6,21 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import com.blank.booksearch.databinding.HolderBookBinding
 
-class BookAdapter : ListAdapter<BookUiModel, BookViewHolder>(diffCallback) {
+class BookAdapter(
+    private val clickListener: (String) -> Unit
+) : ListAdapter<BookUiModel, BookViewHolder>(diffCallback) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BookViewHolder {
-        return BookViewHolder(
-            HolderBookBinding.inflate(
-                LayoutInflater.from(parent.context),
-                parent,
-                false
-            )
+        val binding = HolderBookBinding.inflate(
+            LayoutInflater.from(parent.context),
+            parent,
+            false
         )
+        return BookViewHolder(binding).also { holder ->
+            binding.root.setOnClickListener {
+                getItem(holder.bindingAdapterPosition)?.isbn13?.let(clickListener::invoke)
+            }
+        }
     }
 
     override fun onBindViewHolder(holder: BookViewHolder, position: Int) {

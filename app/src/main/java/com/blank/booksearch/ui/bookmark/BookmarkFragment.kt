@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import com.blank.booksearch.databinding.FragmentBookmarkBinding
 import com.blank.booksearch.ui.common.BookAdapter
 import dagger.hilt.android.AndroidEntryPoint
@@ -29,11 +30,20 @@ class BookmarkFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val adapter = BookAdapter()
+        val adapter = BookAdapter { isbn ->
+            findNavController().navigate(
+                BookmarkFragmentDirections.actionBookmarkFragmentToDetailFragment(isbn)
+            )
+        }
         binding.rvBookmark.adapter = adapter
         vm.uiModels.observe(viewLifecycleOwner) {
             adapter.submitList(it)
         }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        vm.refreshUiModel()
     }
 
     override fun onDestroyView() {

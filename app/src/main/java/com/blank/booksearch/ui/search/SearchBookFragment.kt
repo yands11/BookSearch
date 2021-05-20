@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.SCROLL_STATE_DRAGGING
 import com.blank.booksearch.databinding.FragmentBookSearchBinding
@@ -32,7 +33,11 @@ class SearchBookFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val adapter = SearchBookAdapter()
+        val adapter = SearchBookAdapter { isbn ->
+            findNavController().navigate(
+                SearchBookFragmentDirections.actionSearchFragmentToDetailFragment(isbn)
+            )
+        }
         binding.rvSearch.adapter = adapter
         binding.rvSearch.addOnScrollListener(object : RecyclerView.OnScrollListener() {
             override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
